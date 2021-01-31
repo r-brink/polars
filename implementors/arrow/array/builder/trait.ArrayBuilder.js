@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["polars_arrow"] = [{"text":"impl ArrayBuilder for BooleanArrayBuilder","synthetic":false,"types":[]},{"text":"impl&lt;T&gt; ArrayBuilder for PrimitiveArrayBuilder&lt;T&gt; <span class=\"where fmt-newline\">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: ArrowPrimitiveType,&nbsp;</span>","synthetic":false,"types":[]},{"text":"impl ArrayBuilder for LargeStringBuilder","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
