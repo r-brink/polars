@@ -246,7 +246,7 @@ class DataFrame:
             Cast dates to objects. If False, convert to datetime64[ns] dtype
         kwargs
             arguments will be sent to pyarrow.Table.to_pandas
-        
+
         Example
         ---
         ```python
@@ -256,7 +256,7 @@ class DataFrame:
             "bar": [6, 7, 8],
             "ham": ['a', 'b', 'c']
             })
-        
+
         >>> pandas_df = dataframe.to_pandas()
         >>> type(pandas_df)
         pandas.core.frame.DataFrame
@@ -334,7 +334,7 @@ class DataFrame:
             "bar": [6, 7, 8],
             "ham": ['a', 'b', 'c']
             })
-        
+
         >>> numpy_array = dataframe.to_numpy()
         >>> type(numpy_array)
         numpy.ndarray
@@ -691,7 +691,7 @@ class DataFrame:
             "bar": [6.0, 7.0, 8.0],
             "ham": ['a', 'b', 'c']
             })
-        
+
         >>> df2 = pl.DataFrame({
             "foo": [3, 2, 1],
             "bar": [8.0, 7.0, 6.0],
@@ -750,7 +750,7 @@ class DataFrame:
             "bar": [6, 7, 8, 9, 10],
             "ham": ['a', 'b', 'c', 'd','e']
             })
-        
+
         >>> dataframe.head(3)
         shape: (3, 3)
         ╭─────┬─────┬─────╮
@@ -785,7 +785,7 @@ class DataFrame:
             "bar": [6, 7, 8, 9, 10],
             "ham": ['a', 'b', 'c', 'd','e']
             })
-        
+
         >>> dataframe.tail(3)
         shape: (3, 3)
         ╭─────┬─────┬─────╮
@@ -897,12 +897,12 @@ class DataFrame:
             "bar": [6.0, 7.0, 8.0],
             "ham": ['a', 'b', 'c']
             })
-        
+
         >>> other_dataframe = pl.DataFrame({
             "apple": ['x', 'y', 'z'],
             "ham": ['a', 'b', 'd']
             })
-        
+
         >>> dataframe.join(other_dataframe, on='ham')
         shape: (2, 4)
         ╭─────┬─────┬─────┬───────╮
@@ -1007,7 +1007,7 @@ class DataFrame:
             "bar": [6.0, 7.0, 8.0],
             "ham": ['a', 'b', 'c']
             })
-        
+
         >>> dataframe.drop('ham')
         shape: (3, 2)
         ╭─────┬─────╮
@@ -1177,54 +1177,238 @@ class DataFrame:
     def max(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their maximum value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.max()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 3   ┆ 8   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
         """
         return wrap_df(self._df.max())
 
     def min(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their minimum value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.min()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 1   ┆ 6   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
         """
         return wrap_df(self._df.min())
 
     def sum(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their sum value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.sum()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 6   ┆ 21  ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
         """
         return wrap_df(self._df.sum())
 
     def mean(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their mean value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.mean()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 2   ┆ 7   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
         """
         return wrap_df(self._df.mean())
 
     def std(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their standard deviation value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.std()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 1   ┆ 1   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
         """
         return wrap_df(self._df.std())
 
     def var(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their variance value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.var()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 1   ┆ 1   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
         """
         return wrap_df(self._df.var())
 
     def median(self) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their median value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            "bar": [6.0, 7.0, 8.0],
+            "ham": ['a', 'b', 'c']
+            })
+
+        >>> dataframe.median()
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 2   ┆ 7   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
+
         """
         return wrap_df(self._df.median())
 
     def quantile(self, quantile: float) -> "DataFrame":
         """
         Aggregate the columns of this DataFrame to their quantile value
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3, 4, 5],
+            "bar": [6, 7, 8, 9, 10],
+            "ham": ['a', 'b', 'c', 'd','e']
+            })
+
+        >>> dataframe.quantile(0.66)
+        shape: (1, 3)
+        ╭─────┬─────┬──────╮
+        │ foo ┆ bar ┆ ham  │
+        │ --- ┆ --- ┆ ---  │
+        │ i64 ┆ f64 ┆ str  │
+        ╞═════╪═════╪══════╡
+        │ 4   ┆ 9   ┆ null │
+        ╰─────┴─────┴──────╯
+        ```
+
         """
         return wrap_df(self._df.quantile(quantile))
 
     def to_dummies(self) -> "DataFrame":
         """
         Get one hot encoded dummy variables.
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3],
+            })
+
+        >>> dataframe.to_dummies()
+        shape: (3, 3)
+        ╭───────┬───────┬───────╮
+        │ foo_1 ┆ foo_2 ┆ foo_3 │
+        │ ---   ┆ ---   ┆ ---   │
+        │ u8    ┆ u8    ┆ u8    │
+        ╞═══════╪═══════╪═══════╡
+        │ 1     ┆ 0     ┆ 0     │
+        ├╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+        │ 0     ┆ 1     ┆ 0     │
+        ├╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┼╌╌╌╌╌╌╌┤
+        │ 0     ┆ 0     ┆ 1     │
+        ╰───────┴───────┴───────╯
+        ```
         """
         return wrap_df(self._df.to_dummies())
 
@@ -1270,6 +1454,40 @@ class DataFrame:
             Fraction between 0.0 and 1.0
         with_replacement
             Sample with replacement
+
+        Example
+        ---
+        ```python
+        >>> dataframe = pl.DataFrame({
+            "foo": [1, 2, 3, 4, 5],
+            "bar": [6, 7, 8, 9, 10],
+            "ham": ['a', 'b', 'c', 'd','e']
+            })
+
+        >>> dataframe.sample(2)
+        shape: (2, 3)
+        ╭─────┬─────┬─────╮
+        │ foo ┆ bar ┆ ham │
+        │ --- ┆ --- ┆ --- │
+        │ i64 ┆ i64 ┆ str │
+        ╞═════╪═════╪═════╡
+        │ 1   ┆ 6   ┆ "a" │
+        ├╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌┤
+        │ 3   ┆ 8   ┆ "e" │
+        ╰─────┴─────┴─────╯
+
+        >>> dataframe.sample(frac=0.5)
+        shape: (2, 3)
+        ╭─────┬─────┬─────╮
+        │ foo ┆ bar ┆ ham │
+        │ --- ┆ --- ┆ --- │
+        │ i64 ┆ i64 ┆ str │
+        ╞═════╪═════╪═════╡
+        │ 1   ┆ 6   ┆ "e" │
+        ├╌╌╌╌╌┼╌╌╌╌╌┼╌╌╌╌╌┤
+        │ 4   ┆ 10  ┆ "c" │
+        ╰─────┴─────┴─────╯
+        ```
         """
         if n is not None:
             return wrap_df(self._df.sample_n(n, with_replacement))
